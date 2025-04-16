@@ -1,20 +1,23 @@
-package main
+package controllers
 
 import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/Santiageoff/Death-Note/bd"
+	"github.com/Santiageoff/Death-Note/models"
+	"github.com/Santiageoff/Death-Note/utils"
 	"github.com/gorilla/mux"
 )
 
 // Configuración de rutas para el manejo de personas
-func setupRoutesForPersonas(router *mux.Router) {
+func SetupRoutesForPersonas(router *mux.Router) {
 	// Habilitar CORS
 	enableCORS(router)
 
 	// Ruta GET: lista todas las personas
 	router.HandleFunc("/personas", func(w http.ResponseWriter, r *http.Request) {
-		personas, err := getPersona()
+		personas, err := models.GetPersona()
 		if err != nil {
 			respondWithError(err, w)
 			return
@@ -25,12 +28,12 @@ func setupRoutesForPersonas(router *mux.Router) {
 	// Ruta GET con ID: obtener una sola persona
 	router.HandleFunc("/personas/{id}", func(w http.ResponseWriter, r *http.Request) {
 		idAsString := mux.Vars(r)["id"]
-		id, err := stringToInt64(idAsString)
+		id, err := utils.StringToInt64(idAsString)
 		if err != nil {
 			respondWithError(err, w)
 			return
 		}
-		persona, err := getPersonaById(id)
+		persona, err := models.GetPersonaById(id)
 		if err != nil {
 			respondWithError(err, w)
 			return
@@ -40,13 +43,13 @@ func setupRoutesForPersonas(router *mux.Router) {
 
 	// Ruta POST: crear nueva persona
 	router.HandleFunc("/personas", func(w http.ResponseWriter, r *http.Request) {
-		var persona Personas
+		var persona models.Personas
 		err := json.NewDecoder(r.Body).Decode(&persona)
 		if err != nil {
 			respondWithError(err, w)
 			return
 		}
-		if err := createPersona(persona); err != nil {
+		if err := models.CreatePersona(persona); err != nil {
 			respondWithError(err, w)
 			return
 		}
@@ -55,13 +58,13 @@ func setupRoutesForPersonas(router *mux.Router) {
 
 	// Ruta PUT: actualizar persona
 	router.HandleFunc("/personas", func(w http.ResponseWriter, r *http.Request) {
-		var persona Personas
+		var persona models.Personas
 		err := json.NewDecoder(r.Body).Decode(&persona)
 		if err != nil {
 			respondWithError(err, w)
 			return
 		}
-		if err := updatePersona(persona); err != nil {
+		if err := models.UpdatePersona(persona); err != nil {
 			respondWithError(err, w)
 			return
 		}
@@ -71,12 +74,12 @@ func setupRoutesForPersonas(router *mux.Router) {
 	// Ruta DELETE: eliminar persona
 	router.HandleFunc("/personas/{id}", func(w http.ResponseWriter, r *http.Request) {
 		idAsString := mux.Vars(r)["id"]
-		id, err := stringToInt64(idAsString)
+		id, err := utils.StringToInt64(idAsString)
 		if err != nil {
 			respondWithError(err, w)
 			return
 		}
-		if err := deletePersona(id); err != nil {
+		if err := models.DeletePersona(id); err != nil {
 			respondWithError(err, w)
 			return
 		}
@@ -95,7 +98,7 @@ func setupRoutesForPersonas(router *mux.Router) {
 func enableCORS(router *mux.Router) {
 	// Permitir solicitudes de otros orígenes
 	router.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", AllowedCORSDomain)
+		w.Header().Set("Access-Control-Allow-Origin", bd.AllowedCORSDomain)
 	}).Methods(http.MethodOptions)
 
 	// Middleware que aplica los headers CORS a todas las rutas
@@ -105,7 +108,7 @@ func enableCORS(router *mux.Router) {
 // Middleware para CORS
 func middlewareCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", AllowedCORSDomain)
+		w.Header().Set("Access-Control-Allow-Origin", bd.AllowedCORSDomain)
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")

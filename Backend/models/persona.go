@@ -1,8 +1,12 @@
-package main
+package models
+
+import (
+	"github.com/Santiageoff/Death-Note/bd"
+)
 
 // Insertar persona en la base de datos
-func createPersona(P Personas) error {
-	bd, err := getDB()
+func CreatePersona(P Personas) error {
+	bd, err := bd.GetDB()
 	if err != nil {
 		return err
 	}
@@ -11,8 +15,8 @@ func createPersona(P Personas) error {
 }
 
 // Eliminar persona por ID
-func deletePersona(id int64) error {
-	bd, err := getDB()
+func DeletePersona(id int64) error {
+	bd, err := bd.GetDB()
 	if err != nil {
 		return err
 	}
@@ -21,8 +25,8 @@ func deletePersona(id int64) error {
 }
 
 // Actualizar persona existente
-func updatePersona(Persona Personas) error {
-	bd, err := getDB()
+func UpdatePersona(Persona Personas) error {
+	bd, err := bd.GetDB()
 	if err != nil {
 		return err
 	}
@@ -31,9 +35,9 @@ func updatePersona(Persona Personas) error {
 }
 
 // Obtener todas las personas
-func getPersona() ([]Personas, error) {
+func GetPersona() ([]Personas, error) {
 	personas := []Personas{}
-	bd, err := getDB()
+	bd, err := bd.GetDB()
 	if err != nil {
 		return personas, err
 	}
@@ -53,9 +57,9 @@ func getPersona() ([]Personas, error) {
 }
 
 // Obtener persona por ID
-func getPersonaById(id int64) (Personas, error) {
+func GetPersonaById(id int64) (Personas, error) {
 	var P Personas
-	bd, err := getDB()
+	bd, err := bd.GetDB()
 	if err != nil {
 		return P, err
 	}

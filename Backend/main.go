@@ -5,12 +5,15 @@ import (
 	"net/http"
 	"time"
 
+	bd "github.com/Santiageoff/Death-Note/bd"
+	routes "github.com/Santiageoff/Death-Note/routes"
+
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	// Intentar obtener conexión a la base de datos
-	bd, err := getDB()
+	bd, err := bd.GetDB()
 	if err != nil {
 		log.Printf("Error con la base de datos: " + err.Error())
 		return
@@ -25,7 +28,7 @@ func main() {
 
 	// Definir rutas HTTP
 	router := mux.NewRouter()
-	setupRoutesForPersonas(router)
+	routes.SetupRoutesForPersonas(router)
 
 	port := "localhost:8080"
 

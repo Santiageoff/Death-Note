@@ -1,4 +1,4 @@
-package main
+package bd
 
 import (
 	"database/sql"
@@ -28,7 +28,7 @@ func init() {
 		os.Getenv("db_name"))
 }
 
-func getDB() (*sql.DB, error) {
+func GetDB() (*sql.DB, error) {
 	return sql.Open("mysql", ConnectionString)
 }
 

@@ -1,4 +1,4 @@
-package main
+package models
 
 type Personas struct {
 	Id       int64  `json:"id"`

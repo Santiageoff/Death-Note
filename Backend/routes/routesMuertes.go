@@ -10,58 +10,56 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Configuración de rutas para el manejo de personas
-func SetupRoutesForPersonas(router *mux.Router) {
+// Configuración de rutas para el manejo de muertes
+func SetupRoutesForMuertes(router *mux.Router) {
 	// Habilitar CORS
-	enableCORS(router)
+	enableCORSM(router)
 
-	// Ruta GET: lista todas las personas
-	router.HandleFunc("/personas", func(w http.ResponseWriter, r *http.Request) {
-		personas, err := models.GetPersona()
+	// Ruta GET: lista todas las muertes
+	router.HandleFunc("/muertes", func(w http.ResponseWriter, r *http.Request) {
+		muertes, err := models.GetMuerte()
 		if err != nil {
-			respondWithError(err, w)
+			respondWithErrorM(err, w)
 			return
 		}
-		respondWithSuccess(personas, w)
+		respondWithSuccessM(muertes, w)
 	}).Methods(http.MethodGet)
 
-	// Ruta GET con ID: obtener una sola persona
-	router.HandleFunc("/personas/{id}", func(w http.ResponseWriter, r *http.Request) {
+	// Ruta GET con ID: obtener una sola muerte
+	router.HandleFunc("/muertes/{id}", func(w http.ResponseWriter, r *http.Request) {
 		idAsString := mux.Vars(r)["id"]
 		id, err := utils.StringToInt64(idAsString)
 		if err != nil {
-			respondWithError(err, w)
+			respondWithErrorM(err, w)
 			return
 		}
-		persona, err := models.GetPersonaById(id)
+		muerte, err := models.GetMuerteById(id)
 		if err != nil {
-			respondWithError(err, w)
+			respondWithErrorM(err, w)
 			return
 		}
-		respondWithSuccess(persona, w)
+		respondWithSuccessM(muerte, w)
 	}).Methods(http.MethodGet)
 
-	// Ruta para servir el favicon
-	// Ignorar la solicitud para favicon.ico
+	// Ruta para servir el favicon (opcional)
 	router.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}).Methods(http.MethodGet)
-
 }
 
 // Configuración general de CORS
-func enableCORS(router *mux.Router) {
+func enableCORSM(router *mux.Router) {
 	// Permitir solicitudes de otros orígenes
 	router.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", bd.AllowedCORSDomain)
 	}).Methods(http.MethodOptions)
 
 	// Middleware que aplica los headers CORS a todas las rutas
-	router.Use(middlewareCors)
+	router.Use(middlewareCorsM)
 }
 
 // Middleware para CORS
-func middlewareCors(next http.Handler) http.Handler {
+func middlewareCorsM(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", bd.AllowedCORSDomain)
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -72,13 +70,13 @@ func middlewareCors(next http.Handler) http.Handler {
 }
 
 // Respuesta con error
-func respondWithError(err error, w http.ResponseWriter) {
+func respondWithErrorM(err error, w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 }
 
 // Respuesta con éxito
-func respondWithSuccess(data interface{}, w http.ResponseWriter) {
+func respondWithSuccessM(data interface{}, w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(data)
 }

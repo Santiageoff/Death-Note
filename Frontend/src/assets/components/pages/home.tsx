@@ -13,7 +13,7 @@ const Home = () => {
       style={{ backgroundImage: `url(${getBackgroundImage()})` }}
     >
       <h1 className="home-title">Bienvenido a la Death Note</h1>
-      <Link to="/persona">
+      <Link to="/reglas">
         <button className="home-button" aria-label="Entrar a la Death Note">
           Entrar a la Death Note 
         </button>

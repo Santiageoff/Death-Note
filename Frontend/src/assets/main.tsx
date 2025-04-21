@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import App from './App'
 import Home from './components/pages/home'
-import Muertes from './components/muertes/muertes'
+import Reglas from './components/pages/reglas'
 
 
 // Rutas
@@ -14,12 +14,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/persona",
-    element: <App/>,
+    path: "/reglas",
+    element: <Reglas/>,
   },
   {
-    path: "/muertes",
-    element: <Muertes />,
+    path: "/persona",
+    element: <App/>,
   },
 ]);
 

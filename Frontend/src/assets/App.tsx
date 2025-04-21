@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import { fetchData } from "./hooks/fetchData";
 import "./App.css";
 
-// Cambiá esto por tu endpoint real en Go
 const apiData = fetchData("http://localhost:8080/personas");
 
 function App() {
@@ -10,7 +9,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Usuarios desde Go</h1>
+      <h1>Death Note </h1>
       <Suspense fallback={<div>Loading...</div>}>
         <ul className="card">
           {data?.map((user: any) => (

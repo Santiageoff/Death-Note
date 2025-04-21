@@ -10,7 +10,7 @@ func CreatePersona(P Personas) error {
 	if err != nil {
 		return err
 	}
-	_, err = bd.Exec("INSERT INTO personas (nombre, apellido, foto_url) VALUES (?, ?, ?)", P.Nombre, P.Apellido, P.FotoURL)
+	_, err = bd.Exec("INSERT INTO personas (nombre, apellido, foto_url, causa_muerte) VALUES (?, ?, ?, ?)", P.Nombre, P.Apellido, P.FotoURL, P.CausaMuerte)
 	return err
 }
 
@@ -25,12 +25,12 @@ func DeletePersona(id int64) error {
 }
 
 // Actualizar persona existente
-func UpdatePersona(Persona Personas) error {
+func UpdatePersona(P Personas) error {
 	bd, err := bd.GetDB()
 	if err != nil {
 		return err
 	}
-	_, err = bd.Exec("UPDATE personas SET nombre = ?, apellido = ?, foto_url = ? WHERE id = ?", Persona.Nombre, Persona.Apellido, Persona.FotoURL, Persona.Id)
+	_, err = bd.Exec("UPDATE personas SET nombre = ?, apellido = ?, foto_url = ?, causa_muerte = ? WHERE id = ?", P.Nombre, P.Apellido, P.FotoURL, P.CausaMuerte, P.Id)
 	return err
 }
 
@@ -41,13 +41,13 @@ func GetPersona() ([]Personas, error) {
 	if err != nil {
 		return personas, err
 	}
-	rows, err := bd.Query("SELECT id, nombre, apellido, foto_url, creado_en FROM personas")
+	rows, err := bd.Query("SELECT id, nombre, apellido, foto_url, causa_muerte, fecha_muerte FROM personas")
 	if err != nil {
 		return personas, err
 	}
 	for rows.Next() {
 		var P Personas
-		err = rows.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CreadoEn)
+		err = rows.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CausaMuerte, &P.FechaMuerte)
 		if err != nil {
 			return personas, err
 		}
@@ -63,7 +63,7 @@ func GetPersonaById(id int64) (Personas, error) {
 	if err != nil {
 		return P, err
 	}
-	row := bd.QueryRow("SELECT id, nombre, apellido, foto_url, creado_en FROM personas WHERE id = ?", id)
-	err = row.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CreadoEn)
+	row := bd.QueryRow("SELECT id, nombre, apellido, foto_url, causa_muerte, fecha_muerte FROM personas WHERE id = ?", id)
+	err = row.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CausaMuerte, &P.FechaMuerte)
 	return P, err
 }

@@ -32,4 +32,4 @@ func GetDB() (*sql.DB, error) {
 	return sql.Open("mysql", ConnectionString)
 }
 
-const AllowedCORSDomain = "http://localhost"
+const AllowedCORSDomain = "http://localhost:5173"

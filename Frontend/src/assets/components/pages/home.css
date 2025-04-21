@@ -1,0 +1,103 @@
+/* Importar la fuente */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Fondo con imagen y degradado */
+.home-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px; /* Para evitar que el contenido toque los bordes en pantallas pequeñas */
+}
+
+/* Degradado oscuro sobre la imagen */
+.home-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+    z-index: 1;
+}
+
+/* Imagen de fondo */
+.home-container {
+    background: url("/pokemonInicio.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Asegurar que el contenido esté por encima del degradado */
+.home-title,
+.home-button {
+    position: relative;
+    z-index: 2;
+}
+
+/* Título con efecto y fuente */
+.home-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+    font-family: 'Press Start 2P', cursive;
+    max-width: 90%; /* Para evitar desbordes en pantallas pequeñas */
+}
+
+/* Botón estilo Pokédex con fuente */
+.home-button {
+    background-color: yellow;
+    color: black;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 3px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px black;
+    transition: all 0.2s ease-in-out;
+    font-family: 'Press Start 2P', cursive;
+    margin-top: 20px;
+}
+
+.home-button:hover {
+    background-color: orange;
+    transform: scale(1.1);
+}
+
+.home-button:active {
+    box-shadow: none;
+    transform: scale(0.95);
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Ajustes para pantallas medianas (tablets) */
+@media (max-width: 768px) {
+    .home-title {
+        font-size: 2.2rem; /* Reduce el tamaño del título */
+    }
+
+    .home-button {
+        font-size: 16px;
+        padding: 12px 25px;
+    }
+}
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+    .home-title {
+        font-size: 1.8rem; /* Más pequeño para móviles */
+    }
+
+    .home-button {
+        font-size: 14px;
+        padding: 10px 20px;
+        border-width: 2px;
+    }
+}

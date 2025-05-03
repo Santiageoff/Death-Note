@@ -1,5 +1,6 @@
 import React, { Suspense, useState } from "react";
 import { fetchData } from "./hooks/fetchData";
+import { Link } from "react-router-dom";
 import FormularioMuerte from "./components/pages/formulario";
 import "./App.css";
 
@@ -25,7 +26,6 @@ function VerMuertes() {
   );
 }
 
-
 function App() {
   const [vista, setVista] = useState<"formulario" | "muertes">("formulario");
 
@@ -35,7 +35,11 @@ function App() {
       <div className="tabs">
         <button onClick={() => setVista("formulario")}>Nueva Muerte</button>
         <button onClick={() => setVista("muertes")}>Ver Muertes</button>
+        <Link to="/renunciar">
+        <button>Renunciar</button>
+        </Link>
       </div>
+
 
       <div className="vista-contenido">
         {vista === "formulario" ? (

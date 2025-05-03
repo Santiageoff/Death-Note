@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import Home from './components/pages/home'
 import Reglas from './components/pages/reglas'
+import Renunciar from './components/pages/renunciar'
+import Despedida from './components/pages/despedida'
 
 
 // Rutas
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/persona",
     element: <App/>,
+  },
+  {
+    path: "/renunciar",
+    element: <Renunciar/>,
+  },
+  {
+    path: "/despedida",
+    element: <Despedida/>,
   },
 ]);
 

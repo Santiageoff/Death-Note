@@ -43,10 +43,10 @@ La aplicación incluye un diseño **responsive**, adaptado tanto para móviles c
 
 ## 🖼️ **Capturas de Pantalla**
 ### **Pantalla de Inicio - Ingresar al Death Note**
-![Captura de pantalla de la aplicación - Inicio](public/Inicio_Ingresar.png)
+![Captura de pantalla de la aplicación - Inicio](Frontend/public/Inicio_Ingresar.png)
 
 ### **Pantalla de Reglas**
-![Captura de pantalla de la aplicación - Reglas](public/Reglas.png)
+![Captura de pantalla de la aplicación - Reglas](Frontend/public/Reglas.png)
 
 ### **Filtrado por Nombre**
 ![Captura de pantalla de la aplicación - Filtrado por Nombre](public/Filtrado_Nombre.png)

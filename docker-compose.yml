@@ -1,42 +1,38 @@
-version: '3.8'
-
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: deathnote
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-
   backend:
     build:
       context: ./Backend
-    container_name: backend
-    depends_on:
-      - mysql
-    environment:
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: deathnotedb
     ports:
       - "8080:8080"
-    entrypoint: ["/usr/local/bin/wait-for-it", "mysql:3307", "--timeout=10", "--", "./main"]
+    depends_on:
+      - db
+    env_file:
+      - ./Backend/.env  # Agrega esta línea para usar el archivo .env
+    environment:
+      - user=root
+      - pass=smb2015
+      - host=localhost
+      - port=3307
+      - db_name=deathnotedb
 
   frontend:
     build:
       context: ./Frontend
-    container_name: frontend
+    ports:
+      - "3000:80"
     depends_on:
       - backend
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: smb2015
+      MYSQL_DATABASE: deathnotedb
+    volumes:
+      - db_data:/var/lib/mysql
     ports:
-      - "3000:3000"
+      - "3307:3306"
 
 volumes:
-  mysql-data:
+  db_data:

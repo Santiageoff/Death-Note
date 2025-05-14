@@ -5,6 +5,7 @@ html, body {
     padding: 0;
     overflow: hidden;
     height: 100%;
+    font-family: sans-serif; /* Para una fuente legible en móviles */
 }
 
 .home-container {
@@ -16,8 +17,9 @@ html, body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    background: url("./public/Fondo.jpg") no-repeat center center fixed;
+    background-size: cover;
 }
-
 
 /* Degradado oscuro sobre la imagen */
 .home-container::before {
@@ -29,12 +31,6 @@ html, body {
     height: 100%;
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
     z-index: 1;
-}
-
-/* Imagen de fondo */
-.home-container {
-    background: url("./public/Fondo.jpg") no-repeat center center fixed;
-    background-size: cover;
 }
 
 /* Asegurar que el contenido esté por encima del degradado */
@@ -52,6 +48,7 @@ html, body {
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
     font-family: 'Death Note', cursive;
     max-width: 90%; /* Para evitar desbordes en pantallas pequeñas */
+    margin: 0 10px; /* Espaciado para pantallas pequeñas */
 }
 
 /* Botón estilo DeathNote con fuente */
@@ -67,7 +64,7 @@ html, body {
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
     transition: all 0.2s ease-in-out;
     font-family: 'Death Note', cursive;
-    margin-top: 1px;
+    margin-top: 20px; /* Espaciado entre el título y el botón */
 }
 
 .home-button:hover {
@@ -84,9 +81,21 @@ html, body {
 /* RESPONSIVE DESIGN */
 
 /* Ajustes para pantallas medianas (tablets) */
+@media (max-width: 1024px) {
+    .home-title {
+        font-size: 5rem; /* Ajusta el tamaño para tablets */
+    }
+
+    .home-button {
+        font-size: 18px;
+        padding: 12px 25px;
+    }
+}
+
+/* Ajustes para pantallas medianas (tabletas en modo vertical o pantallas pequeñas de escritorios) */
 @media (max-width: 768px) {
     .home-title {
-        font-size: 2.2rem; /* Reduce el tamaño del título */
+        font-size: 3.5rem; /* Reduce el tamaño del título */
     }
 
     .home-button {
@@ -98,7 +107,7 @@ html, body {
 /* Ajustes para pantallas pequeñas (móviles) */
 @media (max-width: 480px) {
     .home-title {
-        font-size: 1.8rem; /* Más pequeño para móviles */
+        font-size: 2.5rem; /* Más pequeño para móviles */
     }
 
     .home-button {
@@ -106,4 +115,16 @@ html, body {
         padding: 10px 20px;
         border-width: 2px;
     }
-} 
+}
+
+/* Ajustes extra pequeños para pantallas muy pequeñas */
+@media (max-width: 320px) {
+    .home-title {
+        font-size: 2rem; /* Más pequeño en pantallas pequeñas */
+    }
+
+    .home-button {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+}

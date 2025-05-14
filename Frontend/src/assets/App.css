@@ -31,7 +31,7 @@ body {
   align-items: center;
   overflow: hidden;
   padding: 0;
-  margin-top: 4%; 
+  margin-top: 4%;
 }
 
 /* Título principal */
@@ -112,8 +112,8 @@ h1 {
 }
 
 .card img {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 0.5rem;
@@ -173,8 +173,78 @@ h1 {
   overflow-y: auto;  /* Esto habilita el desplazamiento vertical */
 }
 
+.temporizador {
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: black;
+  color: crimson;
+  font-size: 2rem;
+  font-family: "Courier New", monospace;
+  border: 2px solid crimson;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 15px crimson;
+  animation: parpadeo 1s infinite alternate;
+}
+
+@keyframes parpadeo {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
 
 /* Responsivo */
+
+/* Para dispositivos grandes (pantallas más pequeñas de 1920px) */
+@media (max-width: 1200px) {
+  .App {
+    width: 100%;
+    height: auto;
+    padding: 2rem;
+    margin-top: 2%;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+  }
+
+  .tabs button {
+    font-size: 1.5rem;
+  }
+
+  .formulario {
+    padding: 0 2rem;
+  }
+}
+
+/* Para tabletas (pantallas más pequeñas de 1024px) */
+@media (max-width: 1024px) {
+  .App {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+  }
+
+  .tabs button {
+    font-size: 1.3rem;
+  }
+
+  .formulario {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Para dispositivos móviles (pantallas más pequeñas de 768px) */
 @media (max-width: 768px) {
   .App {
     width: 100%;
@@ -188,14 +258,24 @@ h1 {
 
   .tabs button {
     padding: 10px 20px;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .formulario {
     padding: 0 1rem;
+    font-size: 1.6rem;
+  }
+
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .temporizador {
+    font-size: 1.6rem;
   }
 }
 
+/* Para dispositivos móviles pequeños (pantallas más pequeñas de 480px) */
 @media (max-width: 480px) {
   h1 {
     font-size: 1.8rem;

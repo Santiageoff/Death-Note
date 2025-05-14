@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
+interface FormDataType {
+  nombre: string;
+  apellido: string;
+  foto_url: string;
+  causa_muerte: string;
+  detalles_muerte: string;
+}
 
 function FormularioMuerte() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataType>({
     nombre: "",
     apellido: "",
     foto_url: "",
     causa_muerte: "",
-    detalles_muerte:"",
-    fecha_muerte: "",
+    detalles_muerte: "",
   });
 
   const [fotoFile, setFotoFile] = useState<File | null>(null);
-  const [timer, setTimer] = useState<number | null>(null);
+  const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -19,77 +26,73 @@ function FormularioMuerte() {
     if (name === "foto_url" && files && files[0]) {
       setFotoFile(files[0]);
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
-
-  useEffect(() => {
-    if (formData.nombre) {
-      const timeout = setTimeout(() => {
-        if (!formData.causa_muerte) {
-          const deathTime = new Date();
-          deathTime.setSeconds(deathTime.getSeconds() + 40);  // 40 segundos para morir
-          setFormData({ ...formData, fecha_muerte: deathTime.toISOString() });
-        }
-      }, 40000); // 40 segundos para morir si no hay causa
-
-      setTimer(timeout);
-      return () => clearTimeout(timeout); // Limpiar el temporizador cuando el nombre cambie
-    }
-  }, [formData.nombre]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let imageUrl = "";
-    if (fotoFile) {
-      const formData = new FormData();
-      formData.append("foto", fotoFile);
+    if (!fotoFile) {
+      alert("Debes subir una foto antes de continuar.");
+      return;
+    }
+
+    setIsWaiting(true);
+
+    try {
+      // Subir la foto
+      const formDataUpload = new FormData();
+      formDataUpload.append("foto", fotoFile);
 
       const uploadResponse = await fetch("http://localhost:8080/upload", {
         method: "POST",
-        body: formData,
+        body: formDataUpload,
       });
 
       if (!uploadResponse.ok) {
         alert("Error al cargar la imagen");
+        setIsWaiting(false);
         return;
       }
 
       const uploadData = await uploadResponse.json();
-      imageUrl = uploadData.foto_url;
-    }
+      const imageUrl: string = uploadData.foto_url; // Tipificar respuesta de la carga
 
-    const finalData = {
-      ...formData,
-      foto_url: imageUrl, 
-    };
+      // Enviar la persona al backend (se registrará asincrónicamente)
+      const finalData = {
+        nombre: formData.nombre.trim(),
+        apellido: formData.apellido.trim(),
+        foto_url: imageUrl,
+        causa_muerte: formData.causa_muerte.trim(),
+        detalles_muerte: formData.detalles_muerte.trim(),
+      };
 
-    fetch("http://localhost:8080/personas", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(finalData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert("Persona registrada");
-          setFormData({
-            nombre: "",
-            apellido: "",
-            foto_url: "",
-            causa_muerte: "",
-            detalles_muerte: "",
-            fecha_muerte: "",
-          });
-          setFotoFile(null);
-        } else {
-          alert("Error al registrar persona");
-        }
-      })
-      .catch((error) => {
-        alert("Hubo un error con la conexión al servidor.");
-        console.error(error);
+      const response = await fetch("http://localhost:8080/personas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalData),
       });
+
+      if (response.ok) {
+        alert("La muerte ha sido registrada en las sombras... 👻");
+        setFormData({
+          nombre: "",
+          apellido: "",
+          foto_url: "",
+          causa_muerte: "",
+          detalles_muerte: "",
+        });
+        setFotoFile(null);
+      } else {
+        alert("Error al registrar la persona.");
+      }
+    } catch (error) {
+      alert("Error en la conexión al servidor.");
+      console.error(error);
+    } finally {
+      setIsWaiting(false);
+    }
   };
 
   return (
@@ -103,6 +106,7 @@ function FormularioMuerte() {
           accept="image/*"
           onChange={handleChange}
           required
+          disabled={isWaiting}
         />
       </div>
       <input
@@ -112,6 +116,7 @@ function FormularioMuerte() {
         value={formData.nombre}
         onChange={handleChange}
         required
+        disabled={isWaiting}
       />
       <input
         type="text"
@@ -120,6 +125,7 @@ function FormularioMuerte() {
         value={formData.apellido}
         onChange={handleChange}
         required
+        disabled={isWaiting}
       />
       <input
         type="text"
@@ -127,15 +133,19 @@ function FormularioMuerte() {
         placeholder="Causa de muerte (opcional)"
         value={formData.causa_muerte}
         onChange={handleChange}
+        disabled={isWaiting}
       />
       <input
         type="text"
         name="detalles_muerte"
-        placeholder="Detalles (opcional)"
+        placeholder="Detalles de la muerte (opcional)"
         value={formData.detalles_muerte}
         onChange={handleChange}
+        disabled={isWaiting}
       />
-      <button type="submit">Escribir en el Death Note</button>
+      <button type="submit" disabled={isWaiting}>
+        Escribir en el Death Note
+      </button>
     </form>
   );
 }

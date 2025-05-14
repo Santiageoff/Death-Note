@@ -8,7 +8,7 @@
 - [Tecnologías Utilizadas](#-tecnologías-utilizadas)
 - [Capturas de Pantalla](#-capturas-de-pantalla)
 - [Instalación y Ejecución](#-instalación-y-ejecución)
-- [Funcionalidades Principales](#-funcionalidades-principales)
+
 
 ---
 
@@ -21,10 +21,9 @@ La aplicación incluye un diseño **responsive**, adaptado tanto para móviles c
 ---
 
 ## ⭐ **Características**
-- ✔️ Visualización de tarjetas de personas con fotos y detalles.
+- ✔️ Visualización de las muertes
 - ✔️ Registro y gestión de personas que serán "escritas" en el Death Note.
 - ✔️ Diseño **responsive** que se adapta a dispositivos móviles y escritorios.
-- ✔️ Búsqueda y filtrado de personas por nombre y apellido.
 - ✔️ Interfaz limpia y atractiva con efectos y animaciones.
 - ✔️ Consumo de datos a través de un **backend Go**.
 - ✔️ Funcionalidades de **paginación** y **manejo de errores**.
@@ -37,7 +36,7 @@ La aplicación incluye un diseño **responsive**, adaptado tanto para móviles c
 - **Base de Datos:** MySQL  
 - **Lenguajes:** TypeScript, Go  
 - **Estilos:** CSS puro  
-- **Routing:** React Router  
+- **Routing:** React Router
 
 ---
 
@@ -48,29 +47,27 @@ La aplicación incluye un diseño **responsive**, adaptado tanto para móviles c
 ### **Pantalla de Reglas**
 ![Captura de pantalla de la aplicación - Reglas](Frontend/public/Reglas.png)
 
-### **Filtrado por Nombre**
-![Captura de pantalla de la aplicación - Filtrado por Nombre](public/Filtrado_Nombre.png)
+### **Pantalla Principal**
+![Captura de pantalla de la aplicación - Principal](Frontend/public/Formulario.png)
 
-### **Filtrado por Tipo**
-![Captura de pantalla de la aplicación - Filtrado por Tipo](public/Filtrado_Tipo.png)
+### **Pantalla Muertes**
+![Captura de pantalla de la aplicación - Muertes](Frontend/public/Muertes.png)
 
-### **Carta de Persona**
-![Captura de pantalla de la aplicación - Carta de Persona](public/Carta_Pokemon.png)
+
 
 ---
 
 ## 🚀 Instalación y Ejecución
 
-### 1️⃣ Clonar el repositorio (Forma uno)
+### 1️⃣ Clonar el repositorio 
 ```bash
 git clone https://github.com/Santiageoff/Pokedex.git
 npm install  # Instalar dependencias
-npm run dev  # Ejecutar en modo desarrollador, se puede en powershell
-go run . #Ejecutar en modo desarollador, toca en la terminal
+npm run dev  # Ejecutar en modo desarrollador en powershell
+go run . #Ejecutar en modo desarollador en la terminal (command prompt)
 ```
-### Abrir Link Publico 
-#### Puedes acceder a la aplicación en producción en el siguiente enlace: 
-https://pokedex-pi-beryl.vercel.app
+ 
+
 
 
 

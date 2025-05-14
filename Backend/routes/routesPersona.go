@@ -44,18 +44,29 @@ func SetupRoutesForPersonas(router *mux.Router) {
 		respondWithSuccess(persona, w)
 	}).Methods(http.MethodGet)
 
-	// Ruta POST: crear nueva persona
+	// Ruta POST: crear nueva persona con lógica Death Note
+	// Ruta POST: crear nueva persona con lógica Death Note
 	router.HandleFunc("/personas", func(w http.ResponseWriter, r *http.Request) {
 		var persona models.Personas
 		if err := json.NewDecoder(r.Body).Decode(&persona); err != nil {
 			http.Error(w, "Datos inválidos en la solicitud", http.StatusBadRequest)
 			return
 		}
-		if err := models.CreatePersona(persona); err != nil {
-			respondWithError(err, w)
-		} else {
-			respondWithSuccess(true, w)
+
+		// Verificar si hay foto. Si no, no se registra.
+		if !models.FotoMuerte(&persona) {
+			http.Error(w, "No se puede registrar sin foto", http.StatusBadRequest)
+			return
 		}
+
+		// Ejecutar la lógica de muerte en una goroutine (asincronía)
+		go models.EjecutarMuerte(persona)
+
+		// Responder de inmediato al frontend
+		respondWithSuccess(map[string]string{
+			"status":  "Muerte en proceso",
+			"message": "La persona será registrada pronto... si es que no sobrevive.",
+		}, w)
 	}).Methods(http.MethodPost)
 
 	// Ruta POST: subir imagen y devolver la ruta local
@@ -111,6 +122,27 @@ func SetupRoutesForPersonas(router *mux.Router) {
 		}
 	}).Methods(http.MethodDelete)
 
+	// Ruta DELETE: eliminar todas las personas
+	router.HandleFunc("/renunciar", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodDelete {
+			http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
+			return
+		}
+
+		// Llamar a la función para eliminar todas las personas
+		err := models.DeleteAllPersonas()
+		if err != nil {
+			respondWithError(err, w)
+			return
+		}
+
+		// Responder al cliente que la base de datos fue limpiada
+		respondWithSuccess(map[string]string{
+			"status":  "Éxito",
+			"message": "La base de datos ha sido limpiada exitosamente.",
+		}, w)
+	}).Methods(http.MethodDelete)
+
 	// Ruta PUT: actualizar persona por ID
 	router.HandleFunc("/personas/{id}", func(w http.ResponseWriter, r *http.Request) {
 		idAsString := mux.Vars(r)["id"]
@@ -125,7 +157,7 @@ func SetupRoutesForPersonas(router *mux.Router) {
 			http.Error(w, "Datos inválidos en la solicitud", http.StatusBadRequest)
 			return
 		}
-		persona.Id = id // Asegurar que el ID venga de la URL
+		persona.Id = id
 
 		if err := models.UpdatePersona(persona); err != nil {
 			respondWithError(err, w)
@@ -140,7 +172,7 @@ func SetupRoutesForPersonas(router *mux.Router) {
 	}).Methods(http.MethodGet)
 }
 
-// Configuración general de CORS
+// CORS
 func enableCORS(router *mux.Router) {
 	router.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", bd.AllowedCORSDomain)
@@ -149,7 +181,6 @@ func enableCORS(router *mux.Router) {
 	router.Use(middlewareCors)
 }
 
-// Middleware para CORS
 func middlewareCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", bd.AllowedCORSDomain)
@@ -160,13 +191,12 @@ func middlewareCors(next http.Handler) http.Handler {
 	})
 }
 
-// Respuesta con error
+// Manejo de errores y respuestas
 func respondWithError(err error, w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 }
 
-// Respuesta con éxito
 func respondWithSuccess(data interface{}, w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(data)

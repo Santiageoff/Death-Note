@@ -22,6 +22,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 999;
+  padding: 20px; /* Añadir padding para dispositivos pequeños */
 }
 
 /* Contenido del modal */
@@ -36,6 +37,8 @@ body {
   text-align: left;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   font-family: 'Death Note', serif;
+  max-height: 90%; /* Limitar la altura máxima */
+  overflow-y: auto; /* Para que sea desplazable si hay demasiado contenido */
 }
 
 /* Título */
@@ -90,4 +93,119 @@ body {
   background-color: #8b0000;
   color: white;
   transform: scale(1.05);
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Ajustes para pantallas grandes */
+@media (max-width: 1200px) {
+  .modal-content {
+    padding: 30px 20px; /* Reducir padding en pantallas más pequeñas */
+  }
+
+  .modal-content h2 {
+    font-size: 2rem; /* Ajustar el tamaño del título */
+  }
+
+  .modal-content h3 {
+    font-size: 1.4rem; /* Ajustar el tamaño del subtítulo */
+  }
+
+  .modal-content ul li {
+    font-size: 1.1rem; /* Ajustar el tamaño de los items */
+  }
+
+  .modal-buttons button {
+    font-size: 0.9rem; /* Ajustar el tamaño del botón */
+  }
+}
+
+/* Ajustes para pantallas medianas (tabletas en modo horizontal o pantallas pequeñas de escritorios) */
+@media (max-width: 1024px) {
+  .modal-content {
+    max-width: 90%;
+    width: 95%;
+  }
+
+  .modal-content h2 {
+    font-size: 1.8rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .modal-content ul li {
+    font-size: 1.1rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.8rem;
+    padding: 10px 20px;
+  }
+}
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 20px 15px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.6rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .modal-content ul li {
+    font-size: 1rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.8rem;
+    padding: 10px 15px;
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas (móviles pequeños) */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 15px;
+    width: 100%; /* Hacer el modal más pequeño en dispositivos pequeños */
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .modal-content h3 {
+    font-size: 1rem;
+  }
+
+  .modal-content ul li {
+    font-size: 0.9rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.7rem;
+    padding: 8px 12px;
+  }
+}
+
+/* Ajustes extra pequeños para pantallas muy pequeñas */
+@media (max-width: 320px) {
+  .modal-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .modal-content h3 {
+    font-size: 0.9rem;
+  }
+
+  .modal-buttons button {
+    font-size: 0.6rem;
+    padding: 8px 12px;
+  }
 }

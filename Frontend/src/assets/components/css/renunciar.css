@@ -1,3 +1,4 @@
+/* Importar fuente Death Note */
 @import url('https://db.onlinewebfonts.com/c/64bbc93a264bc54a4bc758b555e00074?family=Death+Note');
 
 body {
@@ -22,6 +23,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 999;
+  padding: 10px; /* Añadir un poco de padding para pequeños márgenes */
 }
 
 /* Contenido del modal */
@@ -37,6 +39,8 @@ body {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   font-family: 'Death Note', serif;
   font-size: 1.25rem; /* Aumentado desde 1rem (~20px) */
+  max-height: 90%; /* Evitar que el modal se desborde */
+  overflow-y: auto; /* Permitir desplazamiento si el contenido es largo */
 }
 
 /* Título */
@@ -90,4 +94,125 @@ body {
   background-color: #8b0000;
   color: white;
   transform: scale(1.05);
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Ajustes para pantallas grandes (Desktops) */
+@media (max-width: 1200px) {
+  .modal-content {
+    padding: 40px 30px; /* Reducir padding */
+  }
+
+  .modal-content h2 {
+    font-size: 2.5rem; /* Ajustar el tamaño del título */
+  }
+
+  .modal-content h3 {
+    font-size: 1.8rem; /* Ajustar el tamaño del subtítulo */
+  }
+
+  .modal-content ul {
+    font-size: 1.3rem; /* Ajustar el tamaño de los items */
+  }
+
+  .modal-buttons button {
+    font-size: 1.5rem; /* Ajustar el tamaño del botón */
+  }
+}
+
+/* Ajustes para pantallas medianas (Tabletas) */
+@media (max-width: 1024px) {
+  .modal-content {
+    width: 90%;
+    padding: 30px 25px; /* Reducir padding */
+  }
+
+  .modal-content h2 {
+    font-size: 2.2rem; /* Ajustar el tamaño del título */
+  }
+
+  .modal-content h3 {
+    font-size: 1.6rem; /* Ajustar el tamaño del subtítulo */
+  }
+
+  .modal-content ul li {
+    font-size: 1.2rem; /* Ajustar el tamaño de los items */
+  }
+
+  .modal-buttons button {
+    font-size: 1.3rem; /* Ajustar el tamaño del botón */
+    padding: 12px 25px;
+  }
+}
+
+/* Ajustes para pantallas pequeñas (Móviles) */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px 15px; /* Ajustar padding */
+  }
+
+  .modal-content h2 {
+    font-size: 2rem; /* Ajustar el tamaño del título */
+  }
+
+  .modal-content h3 {
+    font-size: 1.4rem; /* Ajustar el tamaño del subtítulo */
+  }
+
+  .modal-content ul li {
+    font-size: 1rem; /* Ajustar el tamaño de los items */
+  }
+
+  .modal-buttons button {
+    font-size: 1.2rem; /* Ajustar el tamaño del botón */
+    padding: 10px 20px;
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas (Móviles pequeños) */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 100%;
+    padding: 15px 10px; /* Reducir aún más el padding */
+  }
+
+  .modal-content h2 {
+    font-size: 1.6rem; /* Ajustar el tamaño del título */
+  }
+
+  .modal-content h3 {
+    font-size: 1.2rem; /* Ajustar el tamaño del subtítulo */
+  }
+
+  .modal-content ul li {
+    font-size: 0.9rem; /* Ajustar el tamaño de los items */
+  }
+
+  .modal-buttons button {
+    font-size: 1rem; /* Ajustar el tamaño del botón */
+    padding: 8px 15px;
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas (móviles extremadamente pequeños) */
+@media (max-width: 320px) {
+  .modal-content {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.4rem; /* Ajustar el tamaño del título */
+  }
+
+  .modal-content h3 {
+    font-size: 1rem; /* Ajustar el tamaño del subtítulo */
+  }
+
+  .modal-buttons button {
+    font-size: 0.9rem; /* Ajustar el tamaño del botón */
+    padding: 7px 12px;
+  }
 }

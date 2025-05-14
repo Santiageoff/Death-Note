@@ -88,4 +88,7 @@
   .formulario button:hover {
     background-color: #aa0000;
   }
-  
+  .lista {
+  max-height: 400px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;  /* Esto habilita el desplazamiento vertical */
+}

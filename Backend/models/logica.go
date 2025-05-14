@@ -43,11 +43,11 @@ func EjecutarMuerte(persona Personas) {
 		}
 
 		if strings.TrimSpace(p.DetallesMuerte) != "" {
-			fmt.Println("Esperando 6 minutos y 15 segundos para ejecutar muerte con detalles...")
-			time.Sleep(15 * time.Second)
+			fmt.Println("Esperando 6 minutos y 40 segundos para ejecutar muerte con detalles...")
+			time.Sleep(6*time.Minute + 40*time.Second)
 		} else {
-			fmt.Println("Esperando 10 segundos para ejecutar muerte sin detalles...")
-			time.Sleep(10 * time.Second)
+			fmt.Println("Esperando 40 segundos para ejecutar muerte sin detalles...")
+			time.Sleep(40 * time.Second)
 		}
 
 		err := CreatePersona(p)

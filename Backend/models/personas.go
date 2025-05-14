@@ -16,14 +16,14 @@ func CreatePersona(P Personas) error {
 
 	now := time.Now()
 
+	P.FechaCreacion = now.Format("2006-01-02 15:04:05")
+
 	// Calcular fecha de muerte según si hay causa
 	if P.CausaMuerte != "" {
-		P.FechaMuerte = now.Add(6*time.Minute + 40*time.Second).Format("2006-01-02 15:04:05")
+		P.FechaMuerte = now.Add( /*6*time.Minute + */ 15 * time.Second).Format("2006-01-02 15:04:05")
 	} else {
-		P.FechaMuerte = now.Add(40 * time.Second).Format("2006-01-02 15:04:05")
+		P.FechaMuerte = now.Add(10 * time.Second).Format("2006-01-02 15:04:05")
 	}
-
-	P.FechaCreacion = now.Format("2006-01-02 15:04:05")
 
 	fmt.Println("Insertando persona:", P)
 

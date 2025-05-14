@@ -31,69 +31,71 @@ function FormularioMuerte() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!fotoFile) {
-      alert("Debes subir una foto antes de continuar.");
+  const fileInput = document.getElementById("foto_url") as HTMLInputElement;
+  const selectedFile = fileInput?.files?.[0];
+
+  if (!selectedFile) {
+    alert("Debes subir una foto antes de continuar.");
+    return;
+  }
+
+  setIsWaiting(true);
+
+  try {
+    const formDataUpload = new FormData();
+    formDataUpload.append("foto", selectedFile);
+
+    const uploadResponse = await fetch("http://localhost:8080/upload", {
+      method: "POST",
+      body: formDataUpload,
+    });
+
+    if (!uploadResponse.ok) {
+      alert("Error al cargar la imagen");
+      setIsWaiting(false);
       return;
     }
 
-    setIsWaiting(true);
+    const uploadData = await uploadResponse.json();
+    const imageUrl: string = uploadData.foto_url;
 
-    try {
-      // Subir la foto
-      const formDataUpload = new FormData();
-      formDataUpload.append("foto", fotoFile);
+    const finalData = {
+      nombre: formData.nombre.trim(),
+      apellido: formData.apellido.trim(),
+      foto_url: imageUrl,
+      causa_muerte: formData.causa_muerte.trim(),
+      detalles_muerte: formData.detalles_muerte.trim(),
+    };
 
-      const uploadResponse = await fetch("http://localhost:8080/upload", {
-        method: "POST",
-        body: formDataUpload,
+    const response = await fetch("http://localhost:8080/personas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(finalData),
+    });
+
+    if (response.ok) {
+      alert("La muerte ha sido registrada en las sombras...");
+      setFormData({
+        nombre: "",
+        apellido: "",
+        foto_url: "",
+        causa_muerte: "",
+        detalles_muerte: "",
       });
-
-      if (!uploadResponse.ok) {
-        alert("Error al cargar la imagen");
-        setIsWaiting(false);
-        return;
-      }
-
-      const uploadData = await uploadResponse.json();
-      const imageUrl: string = uploadData.foto_url; // Tipificar respuesta de la carga
-
-      // Enviar la persona al backend (se registrará asincrónicamente)
-      const finalData = {
-        nombre: formData.nombre.trim(),
-        apellido: formData.apellido.trim(),
-        foto_url: imageUrl,
-        causa_muerte: formData.causa_muerte.trim(),
-        detalles_muerte: formData.detalles_muerte.trim(),
-      };
-
-      const response = await fetch("http://localhost:8080/personas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(finalData),
-      });
-
-      if (response.ok) {
-        alert("La muerte ha sido registrada en las sombras... 👻");
-        setFormData({
-          nombre: "",
-          apellido: "",
-          foto_url: "",
-          causa_muerte: "",
-          detalles_muerte: "",
-        });
-        setFotoFile(null);
-      } else {
-        alert("Error al registrar la persona.");
-      }
-    } catch (error) {
-      alert("Error en la conexión al servidor.");
-      console.error(error);
-    } finally {
-      setIsWaiting(false);
+      fileInput.value = ""; // Limpiar el input de imagen
+    } else {
+      alert("Error al registrar la persona.");
     }
-  };
+  } catch (error) {
+    alert("Error en la conexión al servidor.");
+    console.error(error);
+  } finally {
+    setIsWaiting(false);
+  }
+};
+
 
   return (
     <form className="formulario" onSubmit={handleSubmit}>

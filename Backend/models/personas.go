@@ -1,16 +1,30 @@
 package models
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/Santiageoff/Death-Note/bd"
 )
 
-// Insertar persona en la base de datos
+// Insertar persona
 func CreatePersona(P Personas) error {
+
+	CausaMuerte(&P)
+
 	bd, err := bd.GetDB()
 	if err != nil {
 		return err
 	}
-	_, err = bd.Exec("INSERT INTO personas (nombre, apellido, foto_url, causa_muerte) VALUES (?, ?, ?, ?)", P.Nombre, P.Apellido, P.FotoURL, P.CausaMuerte)
+
+	// Asignar fecha de muerte al momento de la inserción
+	P.FechaMuerte = time.Now().Format("2006-01-02 15:04:05")
+	fmt.Println("Insertando persona:", P)
+	_, err = bd.Exec(`
+		INSERT INTO personas 
+		(nombre, apellido, foto_url, causa_muerte, detalles_muerte, fecha_muerte)
+		VALUES (?, ?, ?, ?, ?, ?)`,
+		P.Nombre, P.Apellido, P.FotoURL, P.CausaMuerte, P.DetallesMuerte, P.FechaMuerte)
 	return err
 }
 
@@ -24,13 +38,17 @@ func DeletePersona(id int64) error {
 	return err
 }
 
-// Actualizar persona existente
+// Actualizar persona
 func UpdatePersona(P Personas) error {
 	bd, err := bd.GetDB()
 	if err != nil {
 		return err
 	}
-	_, err = bd.Exec("UPDATE personas SET nombre = ?, apellido = ?, foto_url = ?, causa_muerte = ? WHERE id = ?", P.Nombre, P.Apellido, P.FotoURL, P.CausaMuerte, P.Id)
+	_, err = bd.Exec(`
+		UPDATE personas SET 
+		nombre = ?, apellido = ?, foto_url = ?, causa_muerte = ?, detalles_muerte = ?
+		WHERE id = ?`,
+		P.Nombre, P.Apellido, P.FotoURL, P.CausaMuerte, P.DetallesMuerte, P.Id)
 	return err
 }
 
@@ -41,13 +59,17 @@ func GetPersona() ([]Personas, error) {
 	if err != nil {
 		return personas, err
 	}
-	rows, err := bd.Query("SELECT id, nombre, apellido, foto_url, causa_muerte, fecha_muerte FROM personas")
+	rows, err := bd.Query(`
+		SELECT id, nombre, apellido, foto_url, causa_muerte, detalles_muerte, fecha_muerte 
+		FROM personas`)
 	if err != nil {
 		return personas, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var P Personas
-		err = rows.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CausaMuerte, &P.FechaMuerte)
+		err = rows.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CausaMuerte, &P.DetallesMuerte, &P.FechaMuerte)
 		if err != nil {
 			return personas, err
 		}
@@ -56,14 +78,17 @@ func GetPersona() ([]Personas, error) {
 	return personas, nil
 }
 
-// Obtener persona por ID
+// Obtener una persona por ID
 func GetPersonaById(id int64) (Personas, error) {
 	var P Personas
 	bd, err := bd.GetDB()
 	if err != nil {
 		return P, err
 	}
-	row := bd.QueryRow("SELECT id, nombre, apellido, foto_url, causa_muerte, fecha_muerte FROM personas WHERE id = ?", id)
-	err = row.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CausaMuerte, &P.FechaMuerte)
+	row := bd.QueryRow(`
+		SELECT id, nombre, apellido, foto_url, causa_muerte, detalles_muerte, fecha_muerte 
+		FROM personas WHERE id = ?`, id)
+
+	err = row.Scan(&P.Id, &P.Nombre, &P.Apellido, &P.FotoURL, &P.CausaMuerte, &P.DetallesMuerte, &P.FechaMuerte)
 	return P, err
 }

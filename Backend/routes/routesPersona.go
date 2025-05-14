@@ -2,7 +2,10 @@ package routes
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/Santiageoff/Death-Note/bd"
 	"github.com/Santiageoff/Death-Note/models"
@@ -53,6 +56,44 @@ func SetupRoutesForPersonas(router *mux.Router) {
 		} else {
 			respondWithSuccess(true, w)
 		}
+	}).Methods(http.MethodPost)
+
+	// Ruta POST: subir imagen y devolver la ruta local
+	router.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseMultipartForm(10 << 20)
+		if err != nil {
+			http.Error(w, "No se pudo procesar la imagen", http.StatusBadRequest)
+			return
+		}
+
+		file, handler, err := r.FormFile("foto")
+		if err != nil {
+			http.Error(w, "No se encontró el archivo", http.StatusBadRequest)
+			return
+		}
+		defer file.Close()
+
+		uploadDir := "./uploads"
+		if _, err := os.Stat(uploadDir); os.IsNotExist(err) {
+			os.Mkdir(uploadDir, os.ModePerm)
+		}
+
+		dst := filepath.Join(uploadDir, handler.Filename)
+		out, err := os.Create(dst)
+		if err != nil {
+			http.Error(w, "No se pudo guardar la imagen", http.StatusInternalServerError)
+			return
+		}
+		defer out.Close()
+
+		_, err = io.Copy(out, file)
+		if err != nil {
+			http.Error(w, "Error al guardar la imagen", http.StatusInternalServerError)
+			return
+		}
+
+		relativePath := "/uploads/" + handler.Filename
+		json.NewEncoder(w).Encode(map[string]string{"foto_url": relativePath})
 	}).Methods(http.MethodPost)
 
 	// Ruta DELETE: eliminar persona por ID

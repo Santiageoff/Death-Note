@@ -29,6 +29,9 @@ func main() {
 	// Definir rutas HTTP
 	router := mux.NewRouter()
 	routes.SetupRoutesForPersonas(router)
+	// Servir archivos estáticos desde la carpeta /uploads
+	fs := http.FileServer(http.Dir("./uploads"))
+	router.PathPrefix("/uploads/").Handler(http.StripPrefix("/uploads/", fs))
 
 	port := "localhost:8080"
 

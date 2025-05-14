@@ -73,7 +73,7 @@ body {
 }
 
 .modal-buttons button:hover {
-  background-color: crimson;
+  background-color: #8b0000;
   color: white;
   transform: scale(1.08);
 }

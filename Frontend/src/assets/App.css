@@ -1,94 +1,213 @@
+/* Importar la fuente Death Note */
+@import url('https://db.onlinewebfonts.com/c/64bbc93a264bc54a4bc758b555e00074?family=Death+Note');
+
+/* Estilos globales */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #0a0a0a;
+  font-family: 'Death Note', serif;
+  color: #eaeaea;
+}
+
+/* Contenedor principal ajustado a 1920x1080 */
 .App {
-    font-family: 'Segoe UI', sans-serif;
-    padding: 2rem;
-    max-width: 800px;
-    margin: auto;
-    background-color: #121212;
-    color: white;
+  font-family: 'Death Note', serif;
+  width: 1920px;
+  height: 1080px;
+  margin: 0 auto;
+  background-color: #0a0a0a;
+  color: #eaeaea;
+  border: 2px solid white;
+  box-shadow: 0 0 20px white;
+  border-radius: 12px;
+  background-image: url('./public/fondo9.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+  margin-top: 4%; 
+}
+
+/* Título principal */
+h1 {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 5rem;
+  text-shadow: 2px 2px 6px #000, 0 0 10px rgb(255, 255, 255);
+  letter-spacing: 2px;
+  margin-top: 7%; 
+}
+
+/* Nuevo contenedor para centrar el contenido */
+.contenido-principal {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Pestañas estilo gótico */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.tabs button {
+  background-color: #1a1a1a;
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(255, 255, 255);
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: 'Death Note', serif;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 8px rgb(255, 255, 255);;
+  font-size: 1.8rem;
+}
+
+.tabs button:hover {
+  background-color: #8b0000;
+  color: #fff;
+}
+
+/* Área de contenido */
+.vista-contenido {
+  padding: 1.5rem;
+  background: rgba(15, 15, 15, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgb(255, 255, 255);;
+  border: 1px solid #2a2a2a;
+  margin-bottom: 2rem;
+}
+
+/* Tarjetas */
+.card {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card li {
+  background-color: #1a1a1a;
+  padding: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.card li:hover {
+  transform: scale(1.02);
+}
+
+.card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  border: 2px solid #fff;
+}
+
+/* Formulario estilo Death Note */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: 'Death Note', serif;
+  font-size: 2rem;
+}
+
+.formulario input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid rgb(255, 255, 255);
+  background-color: #111;
+  color: white;
+  font-size: 2rem;
+  box-shadow: inset 0 0 5px #000;
+}
+
+.formulario input::placeholder {
+  color: #ccc;
+  font-family: 'Death Note', serif;
+}
+
+.formulario button {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  font-family: 'Death Note', serif;
+  font-size: 1.5rem;
+}
+
+.formulario button:hover {
+  background-color: #8b0000;
+  transform: scale(1.05);
+  font-size: 1.5rem;
+}
+
+.formulario button:active {
+  transform: scale(0.95);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .App {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
   }
-  
+
   h1 {
-    text-align: center;
-    margin-bottom: 2rem;
+    font-size: 2.2rem;
   }
-  
-  .tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
+
   .tabs button {
-    background-color: #333;
-    color: white;
-    border: none;
     padding: 10px 20px;
-    margin: 0 10px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.3s;
+    font-size: 0.9rem;
   }
-  
-  .tabs button:hover {
-    background-color: crimson;
-  }
-  
-  .vista-contenido {
-    padding: 1rem;
-    background: #1f1f1f;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-  }
-  
-  .card {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 1rem;
-  }
-  
-  .card li {
-    background-color: #2a2a2a;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-    text-align: center;
-  }
-  
-  .card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
-  
+
   .formulario {
-    display: flex;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .tabs {
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
   }
-  
-  .formulario input {
-    padding: 10px;
-    border-radius: 6px;
+
+  .tabs button {
+    margin-bottom: 10px;
+  }
+
+  .App {
+    padding: 0.5rem;
+    border-radius: 0;
     border: none;
+    box-shadow: none;
   }
-  
-  .formulario button {
-    background-color: crimson;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .formulario button:hover {
-    background-color: #aa0000;
-  }
-  .lista {
-  max-height: 400px; /* Ajusta la altura máxima según tus necesidades */
-  overflow-y: auto;  /* Esto habilita el desplazamiento vertical */
 }

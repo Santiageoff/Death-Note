@@ -10,8 +10,6 @@ import (
 // Insertar persona
 func CreatePersona(P Personas) error {
 
-	CausaMuerte(&P)
-
 	bd, err := bd.GetDB()
 	if err != nil {
 		return err

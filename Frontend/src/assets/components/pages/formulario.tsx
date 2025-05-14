@@ -6,6 +6,7 @@ function FormularioMuerte() {
     apellido: "",
     foto_url: "",
     causa_muerte: "",
+    detalles_muerte:"",
     fecha_muerte: "",
   });
 
@@ -77,6 +78,7 @@ function FormularioMuerte() {
             apellido: "",
             foto_url: "",
             causa_muerte: "",
+            detalles_muerte: "",
             fecha_muerte: "",
           });
           setFotoFile(null);
@@ -124,6 +126,13 @@ function FormularioMuerte() {
         name="causa_muerte"
         placeholder="Causa de muerte (opcional)"
         value={formData.causa_muerte}
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="detalles_muerte"
+        placeholder="Detalles (opcional)"
+        value={formData.detalles_muerte}
         onChange={handleChange}
       />
       <button type="submit">Escribir en el Death Note</button>

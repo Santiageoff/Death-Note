@@ -168,6 +168,12 @@ h1 {
   transform: scale(0.95);
 }
 
+.lista {
+  max-height: 400px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;  /* Esto habilita el desplazamiento vertical */
+}
+
+
 /* Responsivo */
 @media (max-width: 768px) {
   .App {
